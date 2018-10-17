@@ -1,5 +1,13 @@
 // Filter fish that are "on sale"
 // Add fish to "Basket"
+$.get('../db/fishes.json')
+	.done((data) => {
+		console.log(data);
+		writeFishes(data.fishes);
+	})
+	.fail((error) => {
+		console.error(error);
+	});
 
 const writeFishes = (arrayOfFishes) => {
 	let domString = '';
@@ -42,11 +50,16 @@ $('body').on('click', 'button.remove', (e) => {
 	$(e.target).text('Add To Basket').addClass('add').removeClass('remove');
 });
 
-$.get('../db/fishes.json')
-	.done((data) => {
-		console.log(data);
-		writeFishes(data.fishes);
-	})
-	.fail((error) => {
-		console.error(error);
+$('#show-sale').click(() => {
+	// alert('Sale fishing');
+	// all of the divs with the class fish, give me just the ones without the class 'on-sale' and HIDE
+	$('.fish').not('.on-sale').toggle();
+	$('#show-sale').text((i, text) => {
+		// if (text === 'Show Sale Fish') {
+		// 	return 'Show All';
+		// } else {
+		// 	return 'Show Sales Fish';
+		// }
+		return text === 'show Sale Fish' ? 'Show All' : 'Show Sale Fish';
 	});
+});
