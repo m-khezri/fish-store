@@ -1,13 +1,12 @@
-// Filter fish that are "on sale"
-// Add fish to "Basket"
-$.get('../db/fishes.json')
-	.done((data) => {
-		console.log(data);
-		writeFishes(data.fishes);
-	})
-	.fail((error) => {
-		console.error(error);
+const discount = 0.12;
+
+const applySale = () => {
+	$('.on-sale').each((i, fish) => {
+		const fullPrice = $(fish).find('.price');
+		const newPrice = (parseInt(fullPrice.html()) * (1 - discount)).toFixed(2);
+		fullPrice.html(newPrice);
 	});
+};
 
 const writeFishes = (arrayOfFishes) => {
 	let domString = '';
@@ -63,3 +62,14 @@ $('#show-sale').click(() => {
 		return text === 'show Sale Fish' ? 'Show All' : 'Show Sale Fish';
 	});
 });
+
+// Filter fish that are "on sale"
+// Add fish to "Basket"
+$.get('../db/fishes.json')
+	.done((data) => {
+		applySale();
+		writeFishes(data.fishes);
+	})
+	.fail((error) => {
+		console.error(error);
+	});
